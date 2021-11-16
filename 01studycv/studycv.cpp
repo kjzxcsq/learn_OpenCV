@@ -52,18 +52,18 @@ int main(int, char**)
         }
         if (!enableProcessing)
         {
-            Mat gray, img32, hsv, lab, yuv;
-            frame.convertTo(img32, CV_32F, 1.0/255);
-            cvtColor(frame, gray, COLOR_BGR2GRAY);
-            cvtColor(frame, hsv, COLOR_BGR2HSV);
-            cvtColor(frame, lab, COLOR_BGR2Lab);
-            cvtColor(frame, yuv, COLOR_BGR2YUV);
+            // Mat gray, img32, hsv, lab, yuv;
+            // frame.convertTo(img32, CV_32F, 1.0/255);
+            // cvtColor(frame, gray, COLOR_BGR2GRAY);
+            // cvtColor(frame, hsv, COLOR_BGR2HSV);
+            // cvtColor(frame, lab, COLOR_BGR2Lab);
+            // cvtColor(frame, yuv, COLOR_BGR2YUV);
 
-            imshow("img32", img32);
-            imshow("hsv", hsv);
-            imshow("lab", lab);
-            imshow("hsv", hsv);
-            imshow("gray", gray);
+            // imshow("img32", img32);
+            // imshow("hsv", hsv);
+            // imshow("lab", lab);
+            // imshow("hsv", hsv);
+            // imshow("gray", gray);
             imshow("Frame", frame);
         }
         else
