@@ -1,0 +1,3 @@
+/home/kjzxcsq/dev/src/opencv/01studycv/build/CMakeFiles/rebuild_cache.dir
+/home/kjzxcsq/dev/src/opencv/01studycv/build/CMakeFiles/studycv.dir
+/home/kjzxcsq/dev/src/opencv/01studycv/build/CMakeFiles/edit_cache.dir
