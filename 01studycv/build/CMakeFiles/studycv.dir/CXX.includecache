@@ -7,7 +7,7 @@
 #IncludeRegexTransform: 
 
 /home/kjzxcsq/dev/src/opencv/01studycv/studycv.cpp
-opencv2/core.hpp
+opencv2/opencv.hpp
 -
 opencv2/videoio.hpp
 -
