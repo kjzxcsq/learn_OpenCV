@@ -12,7 +12,6 @@ void callback(int, void*);
 Mat frame, img;
 int main(int, char**)
 {
-    static Mat frame;
     cout << "Opening camera..." << endl;
     VideoCapture capture(2); // open the first camera
     if (!capture.isOpened())
@@ -20,6 +19,9 @@ int main(int, char**)
         cerr << "ERROR: Can't initialize camera capture" << endl;
         return 1;
     }
+    namedWindow("camera", WINDOW_NORMAL);
+    value = 100;
+    createTrackbar("亮度百分百", "camera", &value, 500, callback, 0);
 
     for (;;)
     {
@@ -29,10 +31,11 @@ int main(int, char**)
             cerr << "ERROR: Can't grab camera frame." << endl;
             break;
         }
-        resize(frame, frame, Size(1080, 720), 0, 0, INTER_AREA);
-        namedWindow("camera", WINDOW_NORMAL);
-        value = 100;
-        createTrackbar("亮度百分百", "camera", &value, 500, callback, 0);
+        resize(frame, frame, Size(640, 480), 0, 0, INTER_AREA);
+
+        float a = value / 100.0;
+        img = frame * a;
+        imshow("camera", img);
 
         int key = waitKey(1);
         if (key == 27/*ESC*/)
@@ -43,9 +46,7 @@ int main(int, char**)
 
 void callback(int, void*)
 {
-    float a = value / 100;
-    Mat img = frame * a;
-    imshow("camera", img);
-    cout << "cb" << endl;
+    static int i = 0;
+    cout << "cb" << i++ << endl;
     return;
 }
