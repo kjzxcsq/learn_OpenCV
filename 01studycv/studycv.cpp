@@ -8,29 +8,31 @@ using std::cout; using std::cerr; using std::endl;
 
 int main(int, char**)
 {
-    Mat frame;
-    cout << "Opening camera..." << endl;
-    VideoCapture capture(0); // open the first camera
-    if (!capture.isOpened())
+    Mat img = imread("img.jpg");
+    if(img.empty())
     {
-        cerr << "ERROR: Can't initialize camera capture" << endl;
-        return 1;
+        cout << "image dose not exist" << endl;
+        return -1;
     }
+    Mat temp;
+    img(Range(90, 140), Range(210, 260)).copyTo(temp);
 
-    for (;;)
-    {
-        capture >> frame; // read the next frame from camera
-        if (frame.empty())
-        {
-            cerr << "ERROR: Can't grab camera frame." << endl;
-            break;
-        }
-        
-        imshow("Frame", frame);
+    Mat result;
+    matchTemplate(img, temp, result, TM_CCOEFF_NORMED);
 
-        int key = waitKey(1);
-        if (key == 27/*ESC*/)
-            break;
-    }
+    double maxVal, minVal;
+    Point maxLoc, minLoc;
+    //寻找匹配结果最大值和最小值及坐标位置
+    minMaxLoc(result, &minVal, &maxVal, &minLoc, &maxLoc);
+    //绘制最佳匹配区域
+    rectangle(img, Rect(maxLoc.x, maxLoc.y, temp.cols, temp.rows), Scalar(0, 255, 0), 2);
+    //绘制最不佳匹配区域
+    rectangle(img, Rect(minLoc.x, minLoc.y, temp.cols, temp.rows), Scalar(0, 0, 255), 2);
+
+    imshow("img", img);
+    imshow("temp", temp);
+    imshow("result", result);
+
+    waitKey(0);
     return 0;
 }
