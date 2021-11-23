@@ -17,6 +17,10 @@ int main(int, char**)
         return 1;
     }
 
+    int value = 100;
+    namedWindow("edge_canny", WINDOW_NORMAL);
+    createTrackbar("threshold", "edge_canny", &value, 500);
+
     for (;;)
     {
         capture >> frame; // read the next frame from camera
@@ -25,8 +29,14 @@ int main(int, char**)
             cerr << "ERROR: Can't grab camera frame." << endl;
             break;
         }
+        // resize(frame, frame, Size(), 0.5, 0.5);
+
+        Mat resultG, edge_canny;
+        GaussianBlur(frame, resultG, Size(3, 3), 5);
+        Canny(resultG, edge_canny, value, value*2, 3);
         
-        imshow("Frame", frame);
+        imshow("frame", frame);
+        imshow("edge_canny", edge_canny);
 
         int key = waitKey(1);
         if (key == 27/*ESC*/)
