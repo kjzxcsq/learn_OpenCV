@@ -25,18 +25,26 @@ int main(int, char**)
             cerr << "ERROR: Can't grab camera frame." << endl;
             break;
         }
+        resize(frame, frame, Size(), 0.5, 0.5);
         imshow("frame", frame);
 
         //转成二值图像，用于统计连通域
-        Mat imgG, imgBW;
+        Mat imgG, imgBW, imgE, imgD;
         cvtColor(frame, imgG, COLOR_BGR2GRAY);
         threshold(imgG, imgBW, 150, 255, THRESH_BINARY);
+
+        Mat struct1 = getStructuringElement(0, Size(3, 3));         //矩形结构元素
+        Mat struct2 = getStructuringElement(1, Size(3, 3));         //十字结构元素
+        //腐蚀
+        erode(imgBW, imgE, struct1);
+        //膨胀
+        dilate(imgBW, imgD, struct2);
 
         //生成随机颜色， 区分不同连通域
         RNG rng(142857);
         Mat out, stats, centroids;
         //统计连通域数目
-        int number = connectedComponentsWithStats(imgBW, out, stats, centroids, 8, CV_16U);
+        int number = connectedComponentsWithStats(imgE, out, stats, centroids, 8, CV_16U);
         std::vector<Vec3b> colors;
         for(int i = 0; i < number; i++)
         {
@@ -71,6 +79,8 @@ int main(int, char**)
             cout << "number:" << i << ", area:" << area << endl;
         }
         imshow("imgBW", imgBW);
+        imshow("imgE", imgE);
+        imshow("imgD", imgD);
         imshow("result", frame);
 
         int key = waitKey(1);
