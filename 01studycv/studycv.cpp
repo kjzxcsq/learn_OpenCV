@@ -25,8 +25,8 @@ int main(int, char**)
             cerr << "ERROR: Can't grab camera frame." << endl;
             break;
         }
-        
-        imshow("Frame", frame);
+        resize(frame, frame, Size(), 0.5, 0.5);
+        imshow("frame", frame);
 
         int key = waitKey(1);
         if (key == 27/*ESC*/)
